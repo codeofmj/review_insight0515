@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import OpenAI from 'openai';
-import { supabase } from '../lib/supabase.js';
+import { supabase } from './lib/supabase.js';
 
 dotenv.config();
 
