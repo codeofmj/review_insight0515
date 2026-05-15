@@ -108,7 +108,12 @@ async function saveToSupabase(input_text, sentiment, sentiment_label, confidence
   }
 }
 
-// 서버 시작
-app.listen(PORT, () => {
-  console.log(`🚀 서버가 실행되었습니다: http://localhost:${PORT}`);
-});
+// 서버 시작 (로컬 환경에서만 실행)
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`🚀 서버가 실행되었습니다: http://localhost:${PORT}`);
+  });
+}
+
+// Vercel 서버리스 함수를 위해 app 객체를 내보냅니다.
+export default app;
