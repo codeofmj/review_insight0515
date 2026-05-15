@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 감성분석 서비스</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Google Fonts - Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* 페이지별 레이아웃 스타일 */
+    header {
+      background: var(--color-white);
+      box-shadow: var(--shadow-nav);
+      padding: var(--space-3) var(--space-5);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--color-starbucks-green);
+      text-decoration: none;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: var(--space-4);
+    }
+
+    .nav-menu a {
+      text-decoration: none;
+      color: var(--color-text-main);
+      font-size: var(--text-small);
+      font-weight: 600;
+    }
+
+    .hero-section {
+      padding: var(--space-9) var(--space-4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      background-color: var(--color-warm-bg);
+    }
+
+    .hero-content {
+      max-width: 720px;
+      width: 100%;
+    }
+
+    .hero-title {
+      font-size: var(--text-h1);
+      color: var(--color-starbucks-green);
+      margin-bottom: var(--space-2);
+    }
+
+    .hero-desc {
+      color: var(--color-text-sub);
+      margin-bottom: var(--space-6);
+    }
+
+    .input-card {
+      width: 100%;
+      text-align: left;
+    }
+
+    #sentimentText {
+      width: 100%;
+      min-height: 180px;
+      padding: var(--space-4);
+      border: 1px solid var(--color-ceramic-bg);
+      border-radius: var(--radius-card);
+      font-family: inherit;
+      font-size: var(--text-body);
+      resize: vertical;
+      margin-bottom: var(--space-2);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    #sentimentText:focus {
+      border-color: var(--color-green-accent);
+    }
+
+    .char-count {
+      text-align: right;
+      font-size: var(--text-small);
+      color: var(--color-text-sub);
+      margin-bottom: var(--space-4);
+    }
+
+    .error-message {
+      color: var(--color-error);
+      font-size: var(--text-small);
+      margin-bottom: var(--space-3);
+      display: none; /* 에러 시 표시 */
+    }
+
+    #analyzeButton {
+      width: 100%;
+    }
+
+    .info-section {
+      max-width: 960px;
+      margin: var(--space-9) auto;
+      padding: 0 var(--space-4);
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+    }
+
+    .info-card h4 {
+      color: var(--color-house-green);
+      margin-bottom: var(--space-2);
+    }
+
+    .info-card p {
+      font-size: var(--text-small);
+      color: var(--color-text-sub);
+    }
+
+    footer {
+      padding: var(--space-8) var(--space-4);
+      text-align: center;
+      color: var(--color-text-sub);
+      font-size: var(--text-small);
+      border-top: 1px solid var(--color-ceramic-bg);
+    }
+
+    /* 반응형 스타일 */
+    @media (max-width: 768px) {
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: var(--text-h2);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-container">
+      <a href="#" class="logo">AI 감성분석 서비스</a>
+      <nav class="nav-menu">
+        <a href="#">서비스 소개</a>
+        <a href="#">사용 방법</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section & Input -->
+    <section class="hero-section">
+      <div class="hero-content">
+        <h1 class="hero-title">AI 감성 분석 서비스</h1>
+        <p class="hero-desc">텍스트를 입력하면 AI가 문장의 감성을 긍정, 부정, 중립으로 분석합니다.</p>
+        
+        <div class="card input-card">
+          <textarea id="sentimentText" placeholder="분석하고 싶은 문장을 입력하세요. 예: 오늘 서비스가 정말 만족스러웠어요." maxlength="1000"></textarea>
+          <div class="char-count"><span id="currentCharCount">0</span>/1000</div>
+          <div id="errorMessage" class="error-message">분석할 텍스트를 입력해주세요.</div>
+          <button id="analyzeButton" class="button-primary">감성분석</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Info Section -->
+    <section class="info-section">
+      <div class="info-grid">
+        <div class="card info-card">
+          <h4>긍정 분석</h4>
+          <p>만족, 기대, 칭찬, 호의적인 표현을 감지합니다.</p>
+        </div>
+        <div class="card info-card">
+          <h4>부정 분석</h4>
+          <p>불만, 실망, 분노, 비판적인 표현을 감지합니다.</p>
+        </div>
+        <div class="card info-card">
+          <h4>중립 분석</h4>
+          <p>감정 표현이 약하거나 정보 전달 중심의 문장을 분류합니다.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Result Modal -->
+  <div id="resultModalBackdrop" class="modal-backdrop">
+    <div id="resultModal" class="modal">
+      <h2 class="text-center">분석 결과</h2>
+      <div class="text-center mt-4">
+        <h1 id="resultLabel" class="sentiment-positive" style="font-size: 48px;">긍정</h1>
+        <p id="resultConfidence" class="mt-1">신뢰도 92%</p>
+      </div>
+      <hr class="divider">
+      <div id="resultReason" class="mt-3" style="color: var(--color-text-sub); white-space: pre-wrap;">
+        문장에 긍정적인 표현이 포함되어 있습니다.
+        전반적인 어조가 호의적이며 불만 표현이 없습니다.
+      </div>
+      <div class="mt-6">
+        <button id="modalConfirmButton" class="button-primary" style="width: 100%;">확인</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 AI Sentiment Analyzer. All rights reserved.</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+/* 01. 디자인 시스템 적용 - 스타벅스풍 AI 감성 분석 서비스 */
+
+:root {
+  /* 색상 토큰 */
+  --color-starbucks-green: #006241;
+  --color-green-accent: #00754A;
+  --color-house-green: #1E3932;
+  --color-green-light: #d4e9e2;
+
+  --color-warm-bg: #f2f0eb;
+  --color-ceramic-bg: #edebe9;
+  --color-white: #ffffff;
+
+  --color-text-main: rgba(0, 0, 0, 0.87);
+  --color-text-sub: rgba(0, 0, 0, 0.58);
+  --color-text-white: #ffffff;
+  --color-text-white-soft: rgba(255, 255, 255, 0.70);
+
+  --color-error: #c82014;
+  --color-gold: #cba258;
+
+  /* 타이포그래피 */
+  --font-main: Inter, Manrope, "Helvetica Neue", Arial, sans-serif;
+  --text-h1: 32px;
+  --text-h2: 24px;
+  --text-body: 16px;
+  --text-small: 14px;
+  --line-normal: 1.5;
+  --line-compact: 1.2;
+  --letter-tight: -0.01em;
+
+  /* 간격 */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 40px;
+  --space-7: 48px;
+  --space-8: 56px;
+  --space-9: 64px;
+
+  /* 테두리 반경 */
+  --radius-card: 12px;
+  --radius-button: 50px;
+  --radius-circle: 50%;
+
+  /* 그림자 */
+  --shadow-card: 0 0 0.5px rgba(0,0,0,0.14),
+                 0 1px 1px rgba(0,0,0,0.24);
+  --shadow-nav: 0 1px 3px rgba(0,0,0,0.1),
+                0 2px 2px rgba(0,0,0,0.06),
+                0 0 2px rgba(0,0,0,0.07);
+  --shadow-modal: 0 0 6px rgba(0,0,0,0.24),
+                  0 8px 12px rgba(0,0,0,0.14);
+}
+
+/* 기본 스타일 초기화 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--color-warm-bg);
+  color: var(--color-text-main);
+  line-height: var(--line-normal);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 공통 컴포넌트 */
+
+/* 카드 스타일 */
+.card {
+  background: var(--color-white);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-4);
+  transition: transform 0.2s ease;
+}
+
+/* 버튼 스타일 */
+.button-primary {
+  background: var(--color-green-accent);
+  color: var(--color-white);
+  border: 1px solid var(--color-green-accent);
+  border-radius: var(--radius-button);
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: var(--letter-tight);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.button-primary:hover {
+  background: var(--color-starbucks-green);
+  border-color: var(--color-starbucks-green);
+}
+
+.button-primary:active {
+  transform: scale(0.95);
+}
+
+.button-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: var(--color-text-sub);
+  border-color: var(--color-text-sub);
+}
+
+/* 모달 스타일 */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.48);
+  display: none; /* 기본적으로 숨김 */
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--space-4);
+}
+
+.modal-backdrop.active {
+  display: flex;
+}
+
+.modal {
+  background: var(--color-white);
+  border-radius: var(--radius-card);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-modal);
+  max-width: 500px;
+  width: 100%;
+  position: relative;
+  animation: modal-up 0.3s ease-out;
+}
+
+@keyframes modal-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* 감성별 색상 */
+.sentiment-positive { color: var(--color-green-accent); }
+.sentiment-negative { color: var(--color-error); }
+.sentiment-neutral { color: var(--color-text-sub); }
+
+/* 유틸리티 클래스 */
+.mt-1 { margin-top: var(--space-1); }
+.mt-2 { margin-top: var(--space-2); }
+.mt-3 { margin-top: var(--space-3); }
+.mt-4 { margin-top: var(--space-4); }
+
+.text-center { text-align: center; }
+.divider {
+  height: 1px;
+  background-color: var(--color-ceramic-bg);
+  margin: var(--space-4) 0;
+  border: none;
+}
