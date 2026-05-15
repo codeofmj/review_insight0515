@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import OpenAI from 'openai';
-import { supabase } from './lib/supabase.js';
+import { supabase } from '../lib/supabase.js';
 
 dotenv.config();
 
@@ -12,7 +12,6 @@ const PORT = process.env.PORT || 3000;
 // 미들웨어 설정
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public')); // public 폴더의 정적 파일 서비스 (index.html 등)
 
 // OpenAI 클라이언트 초기화
 const openai = new OpenAI({
